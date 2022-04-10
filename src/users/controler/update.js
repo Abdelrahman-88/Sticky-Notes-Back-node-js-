@@ -17,7 +17,7 @@ exports.updateProfile = async(req, res) => {
             const bytes = CryptoJS.AES.decrypt(data.phone, process.env.SECRET_KEY).toString(CryptoJS.enc.Utf8);
             const { password, phone, ...rest } = data._doc
             const token = jwt.sign({...rest, phone: bytes }, process.env.SECRET_KEY)
-            res.json({ message: "done", token });
+            res.status(StatusCodes.OK).json({ message: "done", token });
         } else {
             res.status(StatusCodes.UNAUTHORIZED).json({ message: "UNAUTHORIZED" });
         }
@@ -45,7 +45,7 @@ exports.updateEmail = async(req, res) => {
                 createUserReport("info.pdf", data)
                 const info = await sendEmail([email], userupdateEmail(token), subject)
                 if (info.messageId) {
-                    res.json({ message: "done" });
+                    res.status(StatusCodes.OK).json({ message: "done" });
                 } else {
                     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Send verification email error" });
                 }

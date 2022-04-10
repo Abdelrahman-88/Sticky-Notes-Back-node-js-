@@ -1,16 +1,17 @@
 const express = require('express')
+require('dotenv').config()
 var cors = require('cors')
 const dbConnection = require('./common/connection/confg')
 const {
     userRouter,
-    noteRouter
+    noteRouter,
+    paymentRoutes
 } = require('./common/router/allRouter')
-require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 5000
 app.use(express.json())
 app.use(cors())
-app.use(userRouter, noteRouter)
+app.use(userRouter, noteRouter, paymentRoutes)
 dbConnection()
 
 
