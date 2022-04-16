@@ -15,6 +15,7 @@ const userSchema = new Schema({
         default: "user"
 
     },
+    subscription: { type: Boolean, default: false },
     verified: { type: Boolean, default: false },
     deactivated: { type: Boolean, default: false },
     blocked: { type: Boolean, default: false },
