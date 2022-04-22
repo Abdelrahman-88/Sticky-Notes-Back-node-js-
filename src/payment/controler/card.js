@@ -42,9 +42,6 @@ const cardPayment = async(req, res) => {
                 res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Failed" });
             });
     } catch (error) {
-        const { userId } = req.params
-        const newPayment = new Payment({ createdBy: userId, status: "failed" })
-        const pay = await newPayment.save()
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Failed" });
     }
 }
