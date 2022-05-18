@@ -35,6 +35,7 @@ const signUp = async(req, res) => {
             }
         }
     } catch (error) {
+        console.log(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Fail to signUp" });
     }
 }
