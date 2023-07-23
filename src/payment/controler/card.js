@@ -31,9 +31,15 @@ const cardPayment = async(req, res) => {
                 const newPayment = new Payment({ createdBy: userId, status: "successed" })
                 const pay = await newPayment.save()
                 const user = await User.findOneAndUpdate({ _id: userId }, { subscription: true }, { new: true });
-                const bytes = CryptoJS.AES.decrypt(user.phone, process.env.SECRET_KEY).toString(CryptoJS.enc.Utf8);
-                const { password, phone, ...rest } = user._doc
-                const token = jwt.sign({...rest, phone: bytes }, process.env.SECRET_KEY)
+                let token = '';
+                if (user.phone) {
+                    const bytes = CryptoJS.AES.decrypt(user.phone, process.env.SECRET_KEY).toString(CryptoJS.enc.Utf8);
+                    const { password, phone, ...rest } = user._doc
+                    token = jwt.sign({...rest, phone: bytes }, process.env.SECRET_KEY)
+                } else {
+                    const { password, ...rest } = user._doc
+                    token = jwt.sign({...rest }, process.env.SECRET_KEY)
+                }
                 res.status(StatusCodes.CREATED).json({ message: "done", token });
             })
             .catch(async(err) => {

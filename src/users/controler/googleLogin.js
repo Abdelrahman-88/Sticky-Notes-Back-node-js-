@@ -7,8 +7,7 @@ const User = require('../model/user.model');
 const client = new OAuth2Client(process.env.GOOGLEClientID)
 
 exports.googleLogin = async(req, res) => {
-    const { name, response } = req.body
-    let idToken = response.id_token
+    const { name, idToken } = req.body
     client.verifyIdToken({ idToken, audience: process.env.GOOGLEClientID }).then(async(result) => {
         let { email_verified, email } = result.payload
         email = email.toLowerCase()
